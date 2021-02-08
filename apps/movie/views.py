@@ -342,7 +342,7 @@ class MovieUpdate(Resource):
     def get(self, **kwargs):
         # form = MovieAddForm()
         parser = reqparse.RequestParser()
-        parser.add_argument('movie_id', type=str, location='args')
+        parser.add_argument('movie_id', required = True, type=str, location='args')
         if parser.parse_args():
             movie_id = parser.parse_args()['movie_id']
             movie_obj = Movie.objects.filter(id = movie_id)
