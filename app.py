@@ -65,3 +65,4 @@ api.add_resource(MovieDelete, '/remove_movie')
 
 #Search api
 api.add_resource(Search, '/search')
+
