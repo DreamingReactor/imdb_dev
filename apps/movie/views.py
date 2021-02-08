@@ -345,7 +345,7 @@ class MovieUpdate(Resource):
         parser.add_argument('movie_id', type=str, location='args')
         if parser.parse_args():
             movie_id = parser.parse_args()['movie_id']
-            movie_obj = Movie.objects.filter(id = '602044503b2604602c4c16e2')
+            movie_obj = Movie.objects.filter(id = movie_id)
             if not movie_obj:
                 response = jsonify({'success': False, 'message': 'Movie not found'})
                 response.status_code = 404
