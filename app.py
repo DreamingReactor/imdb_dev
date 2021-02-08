@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 from flask_mongoengine import MongoEngine
 from flask_restful import Api
 from flask_wtf.csrf import CSRFProtect
@@ -35,6 +35,10 @@ app.config['JWT_REFRESH_COOKIE_PATH'] = '/refresh_token'
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
 jwt = JWTManager(app)
+
+@app.route('/', methods = ['GET'])
+def redirect_to_login():
+    return redirect("/login", code=200)
 
 #Token handling api
 api.add_resource(RefreshToken, '/refresh_token')
