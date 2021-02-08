@@ -7,7 +7,9 @@ from datetime import datetime
 from bson.objectid import ObjectId
 
 class Genre(Document):
-    genre_str = StringField(required = True)
+    genre_str = StringField(required = True, unique = True)
+
+    meta = {'ordering': ['genre_str']}
 
 class Movie(Document):
     name = StringField(required = True)
