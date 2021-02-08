@@ -29,7 +29,6 @@ class MovieAddForm(FlaskForm):
     imdb_score = DecimalField('IMDB Rating', validators=[DataRequired()])
     summary = TextAreaField('Movie Summary')
     release_date = DateField('Release Date(DD-MM-YYYY)', format = '%d-%m-%Y')
-    method_name = StringField(validators=[DataRequired()], default = 'post')
 
     def validate_on_submit(self):
         if not self.imdb_score.data or self.imdb_score.data < 0 or self.imdb_score.data > 10:

@@ -60,7 +60,7 @@ api.add_resource(LikedListRetrieve, '/liked_list')
 api.add_resource(LikedListAdd, '/like')
 api.add_resource(LikedListRemove, '/unlike')
 api.add_resource(MovieAdd, '/add_movie')
-api.add_resource(MovieUpdate, '/update_movie')
+api.add_resource(MovieUpdate, '/update_movie/<string:movie_id>')
 api.add_resource(MovieDelete, '/remove_movie')
 
 #Search api

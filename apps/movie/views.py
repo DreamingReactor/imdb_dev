@@ -338,40 +338,33 @@ class MovieAdd(Resource):
 class MovieUpdate(Resource):
     @jwt_required
     @admin_only
-    def get(self, **kwargs):
-        # form = MovieAddForm()
-        parser = reqparse.RequestParser()
-        parser.add_argument('movie_id', required = True, type=str, location='args')
-        if parser.parse_args():
-            movie_id = parser.parse_args()['movie_id']
-            movie_obj = Movie.objects.filter(id = movie_id)
-            if not movie_obj:
-                response = jsonify({'success': False, 'message': 'Movie not found'})
-                response.status_code = 404
-                return response
-            movie_obj = movie_obj[0]
-            # form = MovieAddForm(name = movie_obj.name, imdb_score = 6,director = movie_obj.director.name, genre = [str(i.id) for i in movie_obj.genre], method = 'patch')
-            form_dict = {}
-            form_dict['name'] = movie_obj.name
-            form_dict['director'] = movie_obj.director.name
-            form_dict['genre'] = [str(i.id) for i in movie_obj.genre]
-            form_dict['imdb_score'] = float(movie_obj.imdb_score)
-            form_dict['summary'] = movie_obj.summary
-            form_dict['method_name'] = 'put'
-            if movie_obj.release_date:
-                form_dict['release_date'] = movie_obj.release_date.date()
-            form = MovieAddForm(**form_dict, data = form_dict)
-            headers = {'Content-Type': '*/*'}
-            return make_response(render_template('movie_form.html', form=form, form_action = '/update_movie?movie_id=602044503b2604602c4c16e2'), 200, headers)
+    def get(self, movie_id, **kwargs):
+        movie_obj = Movie.objects.filter(id = movie_id)
+        if not movie_obj:
+            response = jsonify({'success': False, 'message': 'Movie not found'})
+            response.status_code = 404
+            return response
+        movie_obj = movie_obj[0]
+        form_dict = {}
+        form_dict['name'] = movie_obj.name
+        form_dict['director'] = movie_obj.director.name
+        form_dict['genre'] = [str(i.id) for i in movie_obj.genre]
+        form_dict['imdb_score'] = movie_obj.imdb_score
+        form_dict['summary'] = movie_obj.summary
+        method_name = 'put'
+        if movie_obj.release_date:
+            form_dict['release_date'] = movie_obj.release_date.date()
+        form = MovieAddForm(**form_dict)
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('movie_form.html', form=form, method_name = method_name), 200, headers)
     
     @jwt_required
     @admin_only
-    def put(self, **kwargs):
+    def post(self, movie_id, **kwargs):
         form = MovieAddForm()
         if isinstance(form.validate_on_submit(), Response):
             return form.validate_on_submit()
         parser = reqparse.RequestParser()
-        parser.add_argument('movie_id', required = True, type=str, location='args')
         parser.add_argument('name', required = True, type=str, location='form')
         parser.add_argument('director', required = True, type=str, location='form')
         parser.add_argument('genre', required = True, action = 'append', location='form')
@@ -379,7 +372,6 @@ class MovieUpdate(Resource):
         parser.add_argument('summary', required = True, type=str, location='form')
         parser.add_argument('release_date', required = True, type=str, location='form')
         if parser.parse_args():
-            movie_id = parser.parse_args()['movie_id']
             movie_object = Movie.objects.filter(id = movie_id)
             if not movie_object:
                 response = jsonify({'success': False, 'message': 'Movie not found'})

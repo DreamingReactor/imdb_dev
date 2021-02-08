@@ -1,5 +1,5 @@
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
-from flask import Blueprint, render_template, jsonify, make_response, current_app, Response
+from flask import render_template, jsonify, make_response, current_app, Response
 from flask_restful import Resource, reqparse
 from .forms import RegisterForm
 from apps.profile.models import Profile
@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 import os
 
 enc = Encrypt()
-register = Blueprint('register', __name__, template_folder='templates')
+# register = Blueprint('register', __name__, template_folder='templates')
 
 # @register.route("/register", methods=['get', 'post'])
 # def register_view():
