@@ -286,7 +286,6 @@ class MovieAdd(Resource):
     @admin_only
     def post(self, **kwargs):
         form = MovieAddForm()
-        import ipdb; ipdb.set_trace();
         if isinstance(form.validate_on_submit(), Response):
             return form.validate_on_submit()
         parser = reqparse.RequestParser()
