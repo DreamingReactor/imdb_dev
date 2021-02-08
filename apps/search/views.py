@@ -15,20 +15,25 @@ class Search(Resource):
             if len(search_str) > 2:
                 movie_obj = Movie.objects.filter(name_lower = search_str.lower())
                 artist_obj = Artist.objects.filter(name_lower = search_str.lower())
-                movie_obj_partial = Movie.objects.filter(name_lower__contains = search_str.lower())
-                artist_obj_partial = Artist.objects.filter(name_lower__contains = search_str.lower())
+                found_result = False
                 if movie_obj:
                     for movie in movie_obj:
                         result['movies'].append({'id': str(movie.id), 'name': movie.name})
+                    found_result = True
                 if artist_obj:
                     for artist in artist_obj:
-                        result['artists'].append({'id': str(artist.id), 'name': artist.name})  
-                if movie_obj_partial:
-                    for movie in movie_obj_partial:
-                        suggestion['movies'].append({'id': str(movie.id), 'name': movie.name})
-                if artist_obj_partial:
-                    for artist in artist_obj_partial:
-                        suggestion['artists'].append({'id': str(artist.id), 'name': artist.name})
+                        result['artists'].append({'id': str(artist.id), 'name': artist.name})
+                    found_result = True
+                if not found_result:
+                    movie_obj_partial = Movie.objects.filter(name_lower__contains = search_str.lower())
+                    if movie_obj_partial:
+                        for movie in movie_obj_partial:
+                            suggestion['movies'].append({'id': str(movie.id), 'name': movie.name})
+                if not found_result:
+                    artist_obj_partial = Artist.objects.filter(name_lower__contains = search_str.lower())
+                    if artist_obj_partial:
+                        for artist in artist_obj_partial:
+                            suggestion['artists'].append({'id': str(artist.id), 'name': artist.name})
             
             return jsonify({'success': True, 'result': result, 'suggestion': suggestion})
                 
