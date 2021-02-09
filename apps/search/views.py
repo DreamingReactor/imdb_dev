@@ -37,5 +37,3 @@ class Search(Resource):
             
             return jsonify({'success': True, 'result': result, 'suggestion': suggestion})
                 
-
-            
