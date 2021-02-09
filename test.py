@@ -64,12 +64,12 @@ class UserViewsTests(BaseTestCase):
                                     data={'username': 'admin@test.com', 'password': None})
 
         self.assertEqual(response.json['message'], {'password': 'Missing required parameter in the post body'})
-    @patch('flask_jwt_extended.view_decorators.verify_jwt_in_request')
-    def test_users_can_add_movie(self, *args, **kwargs):
-        with self.client:
-            self.client.post('/login',
-                                    data={'username': 'user@test.com', 'password': '12345'})
-            response = self.client.post('/add_movie',
-                                    data={'username': 'admin@test.com', 'password': '1234'})
-            self.assertEqual(response.json, {'password': 'Missing required parameter in the post body'})
+    # @patch('flask_jwt_extended.view_decorators.verify_jwt_in_request')
+    # def test_users_can_add_movie(self, *args, **kwargs):
+    #     with self.client:
+    #         self.client.post('/login',
+    #                                 data={'username': 'user@test.com', 'password': '12345'})
+    #         response = self.client.post('/add_movie',
+    #                                 data={'username': 'admin@test.com', 'password': '1234'})
+    #         self.assertEqual(response.json, {'password': 'Missing required parameter in the post body'})
             
