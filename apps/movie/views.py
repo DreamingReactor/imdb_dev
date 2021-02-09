@@ -35,7 +35,7 @@ class NextUrl(fields.Raw):
 
 class PrevUrl(fields.Raw):
     def format(self, value):
-        if value > 1:
+        if value > 0:
             global url_str_list, endpoint
             if not url_str_list:
                 return "/"+endpoint+"?page="+str(value)
